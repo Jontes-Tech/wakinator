@@ -34,6 +34,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 import express from "express";
 var app = express();
 import bcrypt from "bcrypt";
@@ -45,8 +54,9 @@ import rateLimit from "express-rate-limit";
 //@ts-ignore
 import wol from "wol";
 console.log("Welcome to Wakinator by Jonte");
-if (!conf.keys[0]) {
-    console.log("This appears to be a first run! Generating your first API key and secure salt.");
+// if conf.keys is empty or the --add-user parameter is present
+if (!conf.keys[0] || process.argv[2] === "--add-key") {
+    console.log("Generating your first API key and secure salt.");
     var func = function () { return __awaiter(void 0, void 0, void 0, function () {
         var saltRounds, token, hashedToken, writeconf, data;
         return __generator(this, function (_a) {
@@ -59,8 +69,9 @@ if (!conf.keys[0]) {
                     hashedToken = _a.sent();
                     writeconf = {
                         version: conf.version,
-                        keys: [hashedToken],
-                        hosts: conf.hosts
+                        keys: __spreadArray(__spreadArray([], conf.keys, true), [hashedToken], false),
+                        hosts: conf.hosts,
+                        port: conf.port
                     };
                     data = JSON.stringify(writeconf, null, " ");
                     // write file to disk
@@ -75,7 +86,7 @@ if (!conf.keys[0]) {
                     console.log("Your login token is: " +
                         token +
                         ". Please ẃrite it down. IT WILL NEVER BE SHOWN AGAIN.");
-                    console.log("If you would like to add more keys (if you for example would like to add more users, run --adduser.");
+                    console.log("If you would like to add more keys (if you for example would like to add more users, run --add-key.");
                     console.log("Configuration wizard is done. Please restart the application to get it running!");
                     return [2 /*return*/];
             }
@@ -93,35 +104,35 @@ var limiter = rateLimit({
 });
 app.use(limiter);
 app.post("/api/wake", express.json(), function (request, reply) {
+    // Loop over all keys in the conf.keys array and check if the password (request.body.passwd) is correct with bcrypt
     for (var i = 0; i < conf.keys.length; i++) {
-        if (bcrypt.compareSync(request.body.passwd, conf.keys[i])) {
+        if (bcrypt.compareSync(decodeURIComponent(request.body.passwd), conf.keys[i])) {
+            wol.wake(
             //@ts-ignore
-            wol.wake(conf.hosts[request.body.target].macadress, function (err) {
+            conf.hosts[request.body.target].macadress, {
+                address: 
+                //@ts-ignore
+                conf.hosts[request.body.target].ipadress || "255.255.255.255",
+                //@ts-ignore
+                port: conf.hosts[request.body.target].port || 9
+            }, function (err) {
                 if (err) {
-                    reply.send("Jonte says no");
+                    reply.send("Could not beam, that's a shame");
                 }
                 else {
-                    reply.send("Beamed");
+                    reply.send("Beamed™ successfully!");
                 }
             });
-        }
-        else {
-            reply.send("Jonte says no");
         }
     }
 });
 app.get("/api/list/boxes", function (request, reply) {
-    for (var i = 0; i < conf.keys.length; i++) {
-        if (bcrypt.compareSync(decodeURIComponent(request.query.passwd), conf.keys[i])) {
-            reply.send(JSON.stringify(conf.hosts));
-        }
-        else {
-            reply.status(401);
-            reply.send(JSON.stringify({
-                error: "Jonte says no",
-                code: 401
-            }));
-        }
+    if (bcrypt.compareSync(decodeURIComponent(request.query.passwd), conf.keys[0])) {
+        reply.send(JSON.stringify(conf.hosts));
+    }
+    else {
+        reply.status(401);
+        reply.send("You are not authorized to do this. Please check your API key and try again.");
     }
 });
 app.listen(conf.port, function () {

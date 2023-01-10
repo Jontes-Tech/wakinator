@@ -1,8 +1,6 @@
 {
  "version": "1.0.0",
- "keys": [
-  "$2b$04$pO4qQoGsdeKUb3aaNDMBU.rRROO/CAn9QZBLfTD8qq0oo5nhD.HAW"
- ],
+ "keys": [],
  "hosts": {
   "jontes-main-desktop": {
    "friendlyname": "Jonte's Main Desktop",
@@ -10,10 +8,10 @@
    "port": 9
   },
   "john-doe-new-laptop": {
-    "friendlyname": "John Doe's Laptop",
-    "macadress": "24-E9-23-20-44-33",
-    "port": 4
-   }
+   "friendlyname": "John Doe's Laptop",
+   "macadress": "24-E9-23-20-44-33",
+   "port": 4
+  }
  },
- "port": 3004
+ "port": 3000
 }

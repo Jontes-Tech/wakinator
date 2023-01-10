@@ -1,5 +1,6 @@
 {
 	"type": "module",
+	"version": "1.0.2",
 	"dependencies": {
 		"@types/wol": "^1.0.1",
 		"bcrypt": "^5.1.0",
