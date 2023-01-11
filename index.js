@@ -54,8 +54,13 @@ import rateLimit from "express-rate-limit";
 //@ts-ignore
 import wol from "wol";
 console.log("Welcome to Wakinator by Jonte");
+// check for the --add-key parameter
+if (process.argv[2] === "--add-key") {
+    // Temporarily tell the user that multi-key is not supported
+    console.log("Multi-key is not supported yet. Please try again with a later version.");
+}
 // if conf.keys is empty or the --add-user parameter is present
-if (!conf.keys[0] || process.argv[2] === "--add-key") {
+if (!conf.keys[0]) {
     console.log("Generating your first API key and secure salt.");
     var func = function () { return __awaiter(void 0, void 0, void 0, function () {
         var saltRounds, token, hashedToken, writeconf, data;
@@ -95,7 +100,7 @@ if (!conf.keys[0] || process.argv[2] === "--add-key") {
     func();
 }
 app.use(cors({
-    origin: ["http://localhost:5173"]
+    origin: ["https://wakinator.jontes.page"]
 }));
 var limiter = rateLimit({
     max: 30,

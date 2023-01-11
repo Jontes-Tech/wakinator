@@ -56,7 +56,7 @@ if (!conf.keys[0]) {
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://wakinator.jontes.page"],
   })
 );
 
