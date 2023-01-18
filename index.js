@@ -46,13 +46,14 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 import fs from "fs";
 import server from "./server.js";
 import { log } from "./logger.js";
-import crypto from 'crypto';
+import crypto from "crypto";
 import bcrypt from "bcrypt";
-log.info("👋 Welcome to Wakinator by Jonte", "You are running version " + JSON.parse(fs.readFileSync("./package.json", "utf8")).version);
+log.info("👋 Welcome to Wakinator by Jonte", "You are running version " +
+    JSON.parse(fs.readFileSync("./package.json", "utf8")).version);
 var conf = JSON.parse(fs.readFileSync("./wakinator.json", "utf8"));
 // if conf.keys is empty or the --add-user parameter is present
-if ((!conf.keys[0]) || (process.argv[2] === "--add-key")) {
-    log.info("Generating your first API key and secure salt.");
+if (!conf.keys[0] || process.argv[2] === "--add-key") {
+    log.info("🔑 Generating your first API key and secure salt.");
     var func = function () { return __awaiter(void 0, void 0, void 0, function () {
         var saltRounds, token, hashedToken, writeconf, data;
         return __generator(this, function (_a) {
@@ -80,7 +81,7 @@ if ((!conf.keys[0]) || (process.argv[2] === "--add-key")) {
                             server();
                         }
                     });
-                    log.info("Your login token is: " +
+                    log.info("🔑 Your login token is: " +
                         token +
                         ". Please write it down. IT WILL NEVER BE SHOWN AGAIN.");
                     log.tip("If you would like to add more keys (if you for example would like to add more users, run --add-key.");

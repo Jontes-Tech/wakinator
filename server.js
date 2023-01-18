@@ -71,7 +71,7 @@ export default function () {
         }
     });
     app.listen(conf.port, function () {
-        log.info("App is listening on port ".concat(conf.port, "!"));
+        log.info("Wakinator is listening on port ".concat(conf.port, "!"));
     });
 }
 //# sourceMappingURL=server.js.map
