@@ -10,7 +10,7 @@ Dependencies:
 
 Steps:
 1. Download Wakinator Server with `git clone https://github.com/Jontes-Tech/wakinator` 
-2. Download dependencies with `ǹpm install` 
+2. Download dependencies with `npm install` 
 3. Run with `node index.js`
 
 ## How to install (docker) 
