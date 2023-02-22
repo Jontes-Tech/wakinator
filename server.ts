@@ -8,10 +8,10 @@ import { log } from "./logger.js";
 export default function () {
   const app: Application = express();
   const conf = JSON.parse(fs.readFileSync("./wakinator.json", "utf8"));
-
+  let corsURL = "https://wakinator.jontes.page"
   app.use(
     cors({
-      origin: ["http://localhost:5173"],
+      origin: [corsURL],
     })
   );
 
@@ -22,6 +22,8 @@ export default function () {
   });
 
   app.use(limiter);
+
+  if (corsURL !== "https://wakinator.jontes.page") log.warn("You are using custom CORS! If this is not intentional, you're experiencing a software bug.")
 
   app.post("/api/wake", express.json(), (request: any, reply) => {
     let match = false;
