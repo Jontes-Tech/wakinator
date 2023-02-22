@@ -1,6 +1,5 @@
 import express, { Application, Request, response, Response } from "express";
 import bcrypt from "bcrypt";
-import cors from "cors";
 import rateLimit from "express-rate-limit";
 import wol from "wol";
 import fs from "fs";
@@ -9,11 +8,6 @@ export default function () {
   const app: Application = express();
   const conf = JSON.parse(fs.readFileSync("./wakinator.json", "utf8"));
   let corsURL = "https://wakinator.jontes.page"
-  app.use(
-    cors({
-      origin: [corsURL],
-    })
-  );
 
   const limiter = rateLimit({
     max: 15,
@@ -27,16 +21,18 @@ export default function () {
 
   app.post("/api/wake", express.json(), (request: any, reply) => {
     let match = false;
-    // Loop over all keys in the conf.keys array and check if the password (request.body.passwd) is correct with bcrypt
+    // Loop over all keys in the conf.keys array and check if the password is correct with bcrypt
     for (let i = 0; i < conf.keys.length; i++) {
       log.ok("Auth: Succeeded with " + conf.keys[i].substring(4, 12));
       if (
         bcrypt.compareSync(
-          decodeURIComponent(request.body.passwd),
+          decodeURIComponent(request.headers.authorization),
           conf.keys[i]
         )
       ) {
         match = true;
+        reply.append('Access-Control-Allow-Origin', [corsURL]);
+        reply.append('Access-Control-Allow-Methods', 'GET,POST');
         if (!conf.dryrun) {
           wol.wake(
             //@ts-ignore
@@ -72,11 +68,13 @@ export default function () {
     for (let i = 0; i < conf.keys.length; i++) {
       if (
         bcrypt.compareSync(
-          decodeURIComponent(request.query.passwd),
+          request.headers.authorization,
           conf.keys[i]
         )
       ) {
         log.ok("Auth: Succeeded with " + conf.keys[i].substring(4, 12));
+        reply.append('Access-Control-Allow-Origin', [corsURL]);
+        reply.append('Access-Control-Allow-Methods', 'GET,POST');
         reply.send(conf.hosts);
         match = true;
         break;

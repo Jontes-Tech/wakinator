@@ -1,6 +1,8 @@
 {
- "version": "1.0.1",
- "keys": [],
+ "version": "1.0.0",
+ "keys": [
+  "$2b$04$zKta9PLdzsYb7r/x6ReEJOsMoAJdj8rbWFDtOfaHnAiNcZE5RqozS"
+ ],
  "hosts": {
   "jontes-main-desktop": {
    "friendlyname": "Jonte's Main Desktop",

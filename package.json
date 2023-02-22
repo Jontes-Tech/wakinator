@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"description": "Ever wanted to power on one of your computers, but can't be bothered to press the power button?",
-	"version": "1.0.6",
+	"version": "2.0.0",
 	"dependencies": {
 		"@lvksh/logger": "^1.6.3",
 		"bcrypt": "^5.1.0",
