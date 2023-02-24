@@ -29,6 +29,11 @@ export const log = createLogger(
         newLine: chalk.blueBright`⮡`,
         newLineEnd: chalk.blueBright`⮡`,
     },
+    docs: {
+      label: chalk.magenta `[DOCS]`,
+      newLine: chalk.magenta`⮡`,
+      newLineEnd: chalk.magenta`⮡`,
+  },
   },
   { padding: "PREPEND" },
   console.log

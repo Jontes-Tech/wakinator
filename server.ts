@@ -1,9 +1,11 @@
-import express, { Application, Request, response, Response } from "express";
+import express, { Application, response } from "express";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
+import cors from "cors"
 import wol from "wol";
 import fs from "fs";
 import { log } from "./logger.js";
+import helmet from "helmet";
 export default function () {
   const app: Application = express();
   const conf = JSON.parse(fs.readFileSync("./wakinator.json", "utf8"));
@@ -16,74 +18,79 @@ export default function () {
   });
 
   app.use(limiter);
-
-  if (corsURL !== "https://wakinator.jontes.page") log.warn("You are using custom CORS! If this is not intentional, you're experiencing a software bug.")
-
-  app.post("/api/wake", express.json(), (request: any, reply) => {
+  app.use(express.urlencoded({ limit: '1mb', extended: true }))
+  app.use(helmet());
+  app.use(cors({
+    origin: corsURL,
+    methods: ['GET', 'POST']
+  }));
+  const authenticate = (request: any, response: any, next: any) => {
     let match = false;
+
     // Loop over all keys in the conf.keys array and check if the password is correct with bcrypt
     for (let i = 0; i < conf.keys.length; i++) {
-      log.ok("Auth: Succeeded with " + conf.keys[i].substring(4, 12));
+      log.ok(`REQ: KEY=${conf.keys[i].substring(4, 12)} USERAGENT=${request.get("User-Agent")} PATH=${request.path}`)
       if (
         bcrypt.compareSync(
-          decodeURIComponent(request.headers.authorization),
+          decodeURIComponent(request.headers.authorization ?? ""),
           conf.keys[i]
         )
       ) {
         match = true;
-        reply.append('Access-Control-Allow-Origin', [corsURL]);
-        reply.append('Access-Control-Allow-Methods', 'GET,POST');
-        if (!conf.dryrun) {
-          wol.wake(
-            //@ts-ignore
-            conf.hosts[request.body.target].macadress,
-            {
-              address:
-                //@ts-ignore
-                conf.hosts[request.body.target].ipadress || "255.255.255.255",
-              //@ts-ignore
-              port: conf.hosts[request.body.target].port || 9,
-            },
-            (err: any) => {
-              if (err) {
-                reply.send("Could not beam, that's a shame");
-              } else {
-                reply.send("Beamed™ successfully!");
-              }
-            }
-          );
-        }
         break;
       } else {
         log.error("Auth: Failed with " + conf.keys[i].substring(4, 12));
       }
     }
     if (!match) {
-      reply.status(401).send("Incorrect password");
+      response.status(401).send("NOOOO. Incorrect.");
+    } else {
+      next();
+    }
+  };
+  app.use(authenticate)
+  if (corsURL !== "https://wakinator.jontes.page") log.warn("You are using custom CORS! If this is not intentional, you're experiencing a software bug.")
+
+  app.post("/api/wake", express.json({ limit: '1mb' }), (request: any, reply) => {
+    if (!conf.dryrun) {
+      wol.wake(
+        //@ts-ignore
+        conf.hosts[request.body.target].macadress,
+        {
+          address:
+            //@ts-ignore
+            conf.hosts[request.body.target].ipadress || "255.255.255.255",
+          //@ts-ignore
+          port: conf.hosts[request.body.target].port || 9,
+        },
+        (err: any) => {
+          if (err) {
+            reply.send("Could not beam, that's a shame");
+          } else {
+            reply.send("Beamed™ successfully!");
+          }
+        }
+      );
     }
   });
   app.get("/api/list/boxes", (request: any, reply) => {
-    //  Check the password against the conf.keys array
-    let match = false;
+    reply.send(conf.hosts);
+  });
+
+  app.get("/api/identify", (request: any, reply) => {
     for (let i = 0; i < conf.keys.length; i++) {
       if (
         bcrypt.compareSync(
-          request.headers.authorization,
+          request.headers.authorization ?? "",
           conf.keys[i]
         )
       ) {
-        log.ok("Auth: Succeeded with " + conf.keys[i].substring(4, 12));
-        reply.append('Access-Control-Allow-Origin', [corsURL]);
-        reply.append('Access-Control-Allow-Methods', 'GET,POST');
-        reply.send(conf.hosts);
-        match = true;
+        log.ok("Key Identified: " + conf.keys[i]);
+        reply.send(conf.keys[i]);
         break;
       } else {
         log.error("Auth: Failed with " + conf.keys[i].substring(4, 12));
       }
-    }
-    if (!match) {
-      reply.status(401).send("Incorrect password");
     }
   });
 

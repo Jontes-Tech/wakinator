@@ -16,6 +16,9 @@ Steps:
 ## How to install (docker) 
 Currently there's no docker image avaible, please look back later.
 
+## What are keys?
+Keys are like passwords, one for each of your devices, that gives access to your wakinator server.
+
 ## Features
 ### Developer API
 Featuring the easy-to-use developer api, simply HTTP POST to /api/wake with a JSON body like this:
@@ -29,3 +32,32 @@ Featuring the easy-to-use developer api, simply HTTP POST to /api/wake with a JS
   }
 }
 ```
+
+## The Configuration
+This is an example configuration
+```json
+{
+ "version": "1.0.0",
+ "keys": [
+ ],
+ "hosts": {
+  "jontes-main-desktop": {
+   "friendlyname": "Jonte's Main Desktop",
+   "macadress": "2C:F0:5D:0A:14:E3",
+   "port": 9
+  },
+  "john-doe-new-laptop": {
+   "friendlyname": "John Doe's Laptop",
+   "macadress": "24-E9-23-20-44-33",
+   "port": 4
+  }
+ },
+ "port": 3009
+}
+```
+Notice the lack empty `keys` array. It will get populated on first launch, or if you run wakinator with the --add-keys argument.
+
+Furthermore, version is set to 1.0.0. This is the version of Wakinator the configuration was written for. You will recieve a warning in wakinator logs if you have a deprecated configuration file. Any option between 1.0.0 and the latest version is fine as of February 2023.
+
+### Deleting Keys
+If you stopped using a device to control your wake-on-lan devices, you want to delete it.

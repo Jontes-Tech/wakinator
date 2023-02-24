@@ -38,13 +38,14 @@ if (!conf.keys[0] || process.argv[2] === "--add-key") {
       }
     });
     log.info(
-      "🔑 Your login token is: " +
+      "🔑 Your access token is: " +
         token +
-        ". Please write it down. IT WILL NEVER BE SHOWN AGAIN."
+        ". Please write it down. THIS WILL NEVER BE SHOWN AGAIN."
     );
     log.tip(
       "If you would like to add more keys (if you for example would like to add more users, run --add-key."
     );
+    log.docs("Deleting keys: https://nt3.me/wdkd")
     log.ok("Configuration wizard is done.");
   };
   func();

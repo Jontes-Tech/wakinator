@@ -30,7 +30,12 @@ export var log = createLogger({
         label: chalk.blueBright(templateObject_12 || (templateObject_12 = __makeTemplateObject(["[TIP]"], ["[TIP]"]))),
         newLine: chalk.blueBright(templateObject_13 || (templateObject_13 = __makeTemplateObject(["\u2BA1"], ["\u2BA1"]))),
         newLineEnd: chalk.blueBright(templateObject_14 || (templateObject_14 = __makeTemplateObject(["\u2BA1"], ["\u2BA1"])))
+    },
+    docs: {
+        label: chalk.magenta(templateObject_15 || (templateObject_15 = __makeTemplateObject(["[DOCS]"], ["[DOCS]"]))),
+        newLine: chalk.magenta(templateObject_16 || (templateObject_16 = __makeTemplateObject(["\u2BA1"], ["\u2BA1"]))),
+        newLineEnd: chalk.magenta(templateObject_17 || (templateObject_17 = __makeTemplateObject(["\u2BA1"], ["\u2BA1"])))
     }
 }, { padding: "PREPEND" }, console.log);
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10, templateObject_11, templateObject_12, templateObject_13, templateObject_14, templateObject_15, templateObject_16, templateObject_17;
 //# sourceMappingURL=logger.js.map
