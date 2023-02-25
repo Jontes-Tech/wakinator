@@ -11,7 +11,8 @@ Dependencies:
 Steps:
 1. Download Wakinator Server with `git clone https://github.com/Jontes-Tech/wakinator` 
 2. Download dependencies with `npm install` 
-3. Run with `node index.js`
+3. Edit the configuration `wakinator.json`
+4. Run with `node index.js`
 
 ## How to install (docker) 
 Currently there's no docker image avaible, please look back later.
@@ -61,3 +62,4 @@ Furthermore, version is set to 1.0.0. This is the version of Wakinator the confi
 
 ### Deleting Keys
 If you stopped using a device to control your wake-on-lan devices, you want to delete it.
+Press the settings gear on the host on wakinator.jontes.page. You will then see your hashed token that host is using. Then you can delete it in the wakinator.json and then restart it.  
