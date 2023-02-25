@@ -1,19 +1,19 @@
 {
-    "version": "1.0.0",
-    "keys": [
-     "$2b$04$G.AcXAuLUdRkLygCMq69MOxd/L2rDwLSM7FMdcj6YaIN9IhvuyK.G"
-    ],
-    "hosts": {
-     "jontes-main-desktop": {
-      "friendlyname": "Jonte's Main Desktop",
-      "macadress": "2C:F0:5D:0A:14:E3",
-      "port": 9
-     },
-     "john-doe-new-laptop": {
-      "friendlyname": "John Doe's Laptop",
-      "macadress": "24-E9-23-20-44-33",
-      "port": 4
-     }
-    },
-    "port": 3009
+ "version": "1.0.0",
+ "keys": [
+  "$2b$04$TsrJWX53qCDE7wwR2dTSkuW.UpVHlzzhN.Bd3B0n0QyloaQbqMdlO"
+ ],
+ "hosts": {
+  "jontes-main-desktop": {
+   "friendlyname": "Jonte's Main Desktop",
+   "macadress": "2C:F0:5D:0A:14:E3",
+   "port": 9
+  },
+  "john-doe-new-laptop": {
+   "friendlyname": "John Doe's Laptop",
+   "macadress": "24-E9-23-20-44-33",
+   "port": 4
+  }
+ },
+ "port": 3009
 }
