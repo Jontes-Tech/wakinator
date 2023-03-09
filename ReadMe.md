@@ -15,7 +15,13 @@ Steps:
 4. Run with `node index.js`
 
 ## How to install (docker) 
-Currently there's no docker image avaible, please look back later.
+Dependencies:
+- Docker
+
+Steps:
+1. Download example configuration file with `wget https://raw.githubusercontent.com/Jontes-Tech/wakinator/master/wakinator.json`
+2. Edit it to add your hosts
+3. Run `sudo docker run -p 3000:3009 -v /home/host/wakinator.json:/usr/wakinator/wakinator.json -d jonatanholmgren/wakinator` (Please note you have to change 3009 to whatever you have in your)
 
 ## What are keys?
 Keys are like passwords, one for each of your devices, that gives access to your wakinator server.
