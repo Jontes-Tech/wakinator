@@ -16,7 +16,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ghcr.io/Jontes-Tech/foxbot
+            ghcr.io/Jontes-Tech/wakinator
           # generate Docker tags based on the following events/attributes
           # semver runs on tag push
           tags: |
@@ -52,7 +52,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            ghcr.io/Jontes-Tech/foxbot
+            ghcr.io/Jontes-Tech/wakinator
 
           flavor: |
             suffix=-arm64,onlatest=true
