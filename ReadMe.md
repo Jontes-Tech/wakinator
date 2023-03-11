@@ -21,7 +21,7 @@ Dependencies:
 Steps:
 1. Download example configuration file with `wget https://raw.githubusercontent.com/Jontes-Tech/wakinator/master/wakinator.json`
 2. Edit it to add your hosts
-3. Run `sudo docker run -p 3000:3009 -v /home/host/wakinator.json:/usr/wakinator/wakinator.json -d jonatanholmgren/wakinator` (Please note you have to change 3009 to whatever you have in your)
+3. Run `sudo docker run -p 3000:3009 -v /home/host/wakinator.json:/usr/wakinator/wakinator.json -d jonatanholmgren/wakinator:amd64` (Please note you have to change 3009 to whatever you have in your config, also change :amd64 to :arm64 if you're on an arm64 v8 system. More architectures coming soon!)
 
 ## What are keys?
 Keys are like passwords, one for each of your devices, that gives access to your wakinator server.
